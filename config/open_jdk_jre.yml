@@ -23,7 +23,7 @@ memory_calculator:
   version: 1.+
   repository_root: ! '{default.repository.root}/memory-calculator/{platform}/{architecture}'
   memory_sizes:
-    metaspace: 80m..96m
+    metaspace: 96m
     permgen: 80m..
     stack: 228k
   memory_heuristics:
