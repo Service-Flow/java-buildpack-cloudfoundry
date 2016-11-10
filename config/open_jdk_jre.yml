@@ -18,21 +18,24 @@
 ---
 jre:
   version: 1.8.0_+
-  repository_root: ! '{default.repository.root}/openjdk/{platform}/{architecture}'
+  repository_root: "{default.repository.root}/openjdk/{platform}/{architecture}"
 memory_calculator:
   version: 2.+
-  repository_root: ! '{default.repository.root}/memory-calculator/{platform}/{architecture}'
-  stack_threads:
+  repository_root: "{default.repository.root}/memory-calculator/{platform}/{architecture}"
+  stack_threads: 300
   memory_sizes:
     heap:
     metaspace: 96m..
     native:
+    permgen: 64m..
     stack: 228k
   memory_heuristics:
     heap: 60
     metaspace: 10
-    stack: 5
     native: 25
+    permgen: 10
+    stack: 5
   memory_initials:
     heap: 100%
     metaspace: 100%
+    permgen: 100%
