@@ -1,5 +1,5 @@
 # Cloud Foundry Java Buildpack
-# Copyright 2013-2015 the original author or authors.
+# Copyright 2013-2017 the original author or authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,22 +17,22 @@
 # If Java 7 is required, permgen will be used instead of metaspace. Please see the documentation for more detail.
 ---
 jre:
-  version: 1.8.0_+
-  repository_root: ! '{default.repository.root}/openjdk/{platform}/{architecture}'
+  version: 1.8.0_12+
+  repository_root: "{default.repository.root}/openjdk/{platform}/{architecture}"
 memory_calculator:
   version: 2.+
-  repository_root: ! '{default.repository.root}/memory-calculator/{platform}/{architecture}'
+  repository_root: "{default.repository.root}/memory-calculator/{platform}/{architecture}"
   stack_threads:
   memory_sizes:
-    heap:
+    heap: 
     metaspace: 96m..
-    native:
+    native: 
     stack: 228k
   memory_heuristics:
     heap: 60
     metaspace: 10
-    stack: 5
     native: 25
+    stack: 5
   memory_initials:
     heap: 100%
     metaspace: 100%
