@@ -6,6 +6,9 @@
 # Do not add anything above this next line.
 common: &default_settings
 
+  # Service-Flow
+  enable_custom_tracing: true
+
   # ============================== LICENSE KEY ===============================
   # You must specify the license key associated with your New Relic
   # account. For example, if your license key is 12345 use this:
@@ -249,6 +252,9 @@ common: &default_settings
 
     com.newrelic.instrumentation.spring-aop-2:
       enabled: false
+
+    # Service-Flow
+    trace_annotation_class_name: com.serviceflow.util.newrelic.Trace
 
     # Classes loaded by classloaders in this list will not be instrumented.
     # This is a useful optimization for runtimes which use classloaders to
