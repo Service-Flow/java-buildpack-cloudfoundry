@@ -18,7 +18,7 @@
 <Server port='-1'>
 
     <Service name='Catalina'>
-        <Connector port='${http.port}' bindOnInit='false' connectionTimeout='20000'/>
+        <Connector port='${http.port}' bindOnInit='false' connectionTimeout='20000'  server='Service-Flow'/>
 
         <Engine defaultHost='localhost' name='Catalina'>
             <Valve className='org.apache.catalina.valves.RemoteIpValve' protocolHeader='x-forwarded-proto'/>
@@ -27,6 +27,7 @@
                    enabled='${access.logging.enabled}'/>
             <Host name='localhost'
                   failCtxIfServletStartFails='true'>
+                <Valve className='org.apache.catalina.valves.ErrorReportValve' showReport='false' showServerInfo='false'/>
                 <Listener className='com.gopivotal.cloudfoundry.tomcat.lifecycle.ApplicationStartupFailureDetectingLifecycleListener'/>
             </Host>
         </Engine>
