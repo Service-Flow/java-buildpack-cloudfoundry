@@ -15,14 +15,12 @@
 
 require 'java_buildpack/component/versioned_dependency_component'
 require 'java_buildpack/framework'
-require 'java_buildpack/util/qualify_path'
 
 module JavaBuildpack
   module Framework
 
     # Encapsulates the functionality for contributing a container-based security provider to an application.
     class ContainerSecurityProvider < JavaBuildpack::Component::VersionedDependencyComponent
-      include JavaBuildpack::Util
 
       # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile

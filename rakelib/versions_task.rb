@@ -37,6 +37,7 @@ module Package
 
       namespace 'versions' do
         version_json_task
+        version_markdown_task
         version_yaml_task
       end
     end
@@ -49,12 +50,17 @@ module Package
 
     NAME_MAPPINGS = {
       'access_logging_support'              => 'Tomcat Access Logging Support',
+      'agent'                               => 'Java Memory Assistant Agent',
       'app_dynamics_agent'                  => 'AppDynamics Agent',
+      'clean_up'                            => 'Java Memory Assistant Clean Up',
+      'client_certificate_mapper'           => 'Client Certificate Mapper',
       'container_customizer'                => 'Spring Boot Container Customizer',
       'container_security_provider'         => 'Container Security Provider',
+      'contrast_security_agent'             => 'Contrast Security Agent',
       'dyadic_ekm_security_provider'        => 'Dyadic EKM Security Provider',
       'dynatrace_appmon_agent'              => 'Dynatrace Appmon Agent',
       'dynatrace_one_agent'                 => 'Dynatrace OneAgent',
+      'geode_store'                         => 'Apache Geode Tomcat Session Store',
       'google_stackdriver_debugger'         => 'Google Stackdriver Debugger',
       'groovy'                              => 'Groovy',
       'jre'                                 => 'OpenJDK JRE',
@@ -64,6 +70,7 @@ module Package
       'luna_security_provider'              => 'Gemalto Luna Security Provider',
       'maria_db_jdbc'                       => 'MariaDB JDBC Driver',
       'memory_calculator'                   => 'Memory Calculator',
+      'metric_writer'                       => 'Metric Writer',
       'new_relic_agent'                     => 'New Relic Agent',
       'play_framework_auto_reconfiguration' => 'Play Framework Auto-reconfiguration',
       'play_framework_jpa_plugin'           => 'Play Framework JPA Plugin',
@@ -176,9 +183,12 @@ module Package
         index_configuration(configuration).each do |index_configuration|
           version, uri = get_from_cache(cache, configuration, index_configuration)
 
+          name = NAME_MAPPINGS[id]
+          raise "Unable to resolve name for '#{id}'" unless name
+
           dependency_versions << {
             'id'      => id,
-            'name'    => NAME_MAPPINGS[id] || "UNKNOWN (#{id})",
+            'name'    => name,
             'uri'     => uri,
             'version' => version
           }
@@ -209,7 +219,7 @@ module Package
     def version_task
       desc 'Display the versions of buildpack dependencies in human readable form'
       task versions: [] do
-        v    = versions
+        v = versions
 
         rows = v['dependencies']
                .sort_by { |dependency| dependency['name'].downcase }
@@ -222,7 +232,21 @@ module Package
     def version_json_task
       desc 'Display the versions of buildpack dependencies in JSON form'
       task json: [] do
-        puts JSON.pretty_generate(versions)
+        puts JSON.pretty_generate(versions['dependencies']
+          .sort_by { |dependency| dependency['name'].downcase }
+          .map { |dependency| "#{dependency['name']} #{dependency['version']}" })
+      end
+    end
+
+    def version_markdown_task
+      desc 'Display the versions of buildpack dependencies in Markdown form'
+      task markdown: [] do
+        puts '| Dependency | Version |'
+        puts '| ---------- | ------- |'
+
+        versions['dependencies']
+          .sort_by { |dependency| dependency['name'].downcase }
+          .each { |dependency| puts "| #{dependency['name']} | `#{dependency['version']}` |" }
       end
     end
 
